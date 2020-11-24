@@ -38,15 +38,13 @@ app.get('/search', async function(req, res) {
     res.sendFile(path.join(__dirname, './search/search.html'));
 });
 
-app.get('/books', function(req, res) {
+app.get('/bookinfo', function(req, res) {
     let id = req.query.id;
 
     res.end(id);
 });
 
 io.on('connection', function(socket) {
-    console.log(`a wild user appeared on the search tab`);
-
 
     socket.on('gimmelist', async function(query) {
         console.log(`query : ${query}`);
@@ -123,7 +121,7 @@ io.on('connection', function(socket) {
     });
 
     socket.on('disconnect', function() {
-        console.log(`someone disappeared from the search tab.`);
+        // 
     });
 });
 

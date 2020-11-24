@@ -85,29 +85,185 @@ const searchquery = (new URL(window.location.href)).searchParams.get('v');
 //     document.getElementById('table').innerHTML = result;
 // }
 
+//
+
+// for (let i = 0; i < list.length; i++) {
+//     result += `<tr>`;
+
+//     result += `<td>${nulldetection(list[i]["No"])}</td>`;
+//     result += `<td>${nulldetection(list[i]["Name"])}</td>`;
+//     result += `<td>${nulldetection(list[i]["Author"])}</td>`;
+//     result += `<td>${nulldetection(list[i]["Publisher"])}</td>`;
+//     result += `<td>${nulldetection(list[i]["PublicationYear"])}</td>`;
+//     result += `<td>N/A</td>`;
+//     result += `<td>N/A</td>`;
+
+//     result += `<tr>`;
+// }
+
+const tableinit = `<tr align="center" id="title">
+    <td>번호</td>
+    <td width="40%">도서명</td>
+    <td width="15%">저자</td>
+    <td width="15%">출판사</td>
+    <td>년도</td>
+    <td>대출</td>
+    <td>예약</td>
+    </tr>`;
+
+let booklist = [];
+let pages;
+let booksperpage = 7;
+let currentPage = 1;
 socket.emit('gimmelist', searchquery);
 
 socket.on('result', function(list) {
     console.log(`results received.`);
+    booklist = JSON.parse(list);
+    pages = Math.floor((booklist.length / booksperpage) + 1);
+    if (booklist.length % booksperpage == 0) pages--;
 
-    list = JSON.parse(list);
-    let result = "";
-    for (let i = 0; i < list.length; i++) {
-        result += `<tr>`;
-
-        result += `<td>${nulldetection(list[i]["No"])}</td>`;
-        result += `<td>${nulldetection(list[i]["Name"])}</td>`;
-        result += `<td>${nulldetection(list[i]["Author"])}</td>`;
-        result += `<td>${nulldetection(list[i]["Publisher"])}</td>`;
-        result += `<td>${nulldetection(list[i]["PublicationYear"])}</td>`;
-        result += `<td>N/A</td>`;
-        result += `<td>N/A</td>`;
-
-        result += `<tr>`;
-    }
-    document.getElementById('table').innerHTML = result;
-    document.getElementById('loading').style.opacity = 0;
+    document.getElementById('loading').style.opacity = `0`;
+    bottomNavUpdate();
+    tableUpdate();
+    updatePage(1);
 });
+
+const firstpage = `<span id="firstpage">
+<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-box-arrow-in-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0v-2z"/>
+    <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
+</svg>
+</span>`;
+
+const back = `<span id="back">
+<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
+</svg>
+</span>`;
+
+const front = `<span id="front">
+<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path fill-rule="evenodd" d="M4 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5A.5.5 0 0 0 4 8z"/>
+</svg>
+</span>`;
+
+const lastpage = `<span id="lastpage">
+<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-box-arrow-in-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
+    <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+</svg>
+</span>`;
+
+function bottomNavUpdate(num) {
+    let result = '';
+
+    if (currentPage != 1) {
+        result += firstpage;
+
+    }
+
+    if (currentPage != 1) {
+        result += back;
+    }
+
+
+    for (let i = ((10 * Math.floor((currentPage - 1) / 10)) + 1); i < ((10 * Math.floor((currentPage - 1) / 10)) + 11); i++) {
+        result += `<span id="page${i}">${i}</span>`;
+        if (pages == i) {
+            break;
+        }
+    }
+
+
+    if (currentPage != pages) {
+        result += front;
+
+    }
+
+    if (currentPage != pages) {
+        result += lastpage;
+    }
+
+    document.getElementById('bottomnav').innerHTML = result;
+
+    for (let i = ((10 * Math.floor((currentPage - 1) / 10)) + 1); i < ((10 * Math.floor((currentPage - 1) / 10)) + 11); i++) {
+
+        document.getElementById(`page${i}`).onclick = function(event) {
+            updatePage(`${i}`);
+            event.preventDefault();
+        };
+
+        if (pages == i) {
+            break;
+        }
+    }
+
+    try {
+        document.getElementById('firstpage').onclick = function(event) {
+            updatePage(1);
+            event.preventDefault();
+        };
+    } catch {}
+
+    try {
+        document.getElementById('back').onclick = function(event) {
+            updatePage(currentPage - 1);
+            event.preventDefault();
+        };
+    } catch {}
+
+    try {
+        document.getElementById('front').onclick = function(event) {
+            updatePage(parseInt(currentPage) + 1);
+            event.preventDefault();
+        };
+    } catch {}
+
+    try {
+        document.getElementById(`lastpage`).onclick = function(event) {
+            updatePage(pages);
+            event.preventDefault();
+        };
+    } catch {}
+}
+
+function updatePage(newpagenum) {
+    $(`#page${currentPage}`).css('text-decoration', 'none');
+    $(`#page${currentPage}`).css('font-weight', '100');
+    $(`#page${currentPage}`).css('color', 'black');
+    currentPage = newpagenum;
+
+    bottomNavUpdate();
+    tableUpdate();
+    $(`#page${currentPage}`).css('text-decoration', 'underline');
+    $(`#page${currentPage}`).css('font-weight', '900');
+    $(`#page${currentPage}`).css('color', 'blue');
+}
+
+function tableUpdate() {
+    let result = tableinit;
+
+    for (let i = booksperpage * (currentPage - 1); i < booksperpage * currentPage; i++) {
+        try {
+            result += `<tr>`;
+
+            result += `<td>${nulldetection(booklist[i]["No"])}</td>`;
+            result += `<td>${nulldetection(booklist[i]["Name"])}</td>`;
+            result += `<td>${nulldetection(booklist[i]["Author"])}</td>`;
+            result += `<td>${nulldetection(booklist[i]["Publisher"])}</td>`;
+            result += `<td>${nulldetection(booklist[i]["PublicationYear"])}</td>`;
+            result += `<td>N/A</td>`;
+            result += `<td>N/A</td>`;
+
+            result += `<tr>`;
+        } catch {}
+    }
+
+    document.getElementById('table').innerHTML = result;
+}
 
 function nulldetection(object) {
     if (object == null) {
@@ -116,3 +272,7 @@ function nulldetection(object) {
         return object;
     }
 }
+
+$('#logo').click(function() {
+    window.location.replace('/');
+});
