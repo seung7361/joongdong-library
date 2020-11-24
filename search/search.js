@@ -1,4 +1,4 @@
-const socket = io.connect('http://book.joongdong.kro.kr:3000');
+const socket = io.connect(`${window.location.origin}`);
 const searchquery = (new URL(window.location.href)).searchParams.get('v');
 
 // let booklist = new Array();
@@ -91,16 +91,7 @@ socket.on('result', function(list) {
     console.log(`results received.`);
 
     list = JSON.parse(list);
-    let result = `
-    <tr align="center" id="title">
-        <td>번호</td>
-        <td width="40%">도서명</td>
-        <td width="15%">저자</td>
-        <td width="15%">출판사</td>
-        <td>년도</td>
-        <td>대출</td>
-        <td>예약</td>
-    </tr>`;
+    let result = "";
     for (let i = 0; i < list.length; i++) {
         result += `<tr>`;
 
@@ -114,8 +105,8 @@ socket.on('result', function(list) {
 
         result += `<tr>`;
     }
-
     document.getElementById('table').innerHTML = result;
+    document.getElementById('loading').style.opacity = 0;
 });
 
 function nulldetection(object) {

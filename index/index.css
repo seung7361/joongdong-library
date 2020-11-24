@@ -120,26 +120,18 @@ body {
 }
 
 form {
-    position: absolute;
-    width: 100%;
-    top: 50vh;
-    display: block;
+    width: 47%;
     font-family: "Hancom Gothic Bold";
-    margin: 0 auto;
-}
-
-.input input {
-    font-size: 25px;
-    text-align: center;
-    width: 50%;
-    display: inline-block;
-}
-
-.searchbar {
-    width: 50%!important;
-    margin: 0 auto;
     position: absolute;
-    display: block;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#input {
+    text-align: center;
+    font-size: 1.5em;
+    display: inline-block;
 }
 
 .footbutton {
@@ -174,12 +166,6 @@ form {
     display: inline-block;
     cursor: pointer;
     margin-bottom: 10px;
-}
-
-#mainwebpage {
-    transition-duration: 1s;
-    -webkit-transition-duration: 1s;
-    -moz-transition-duration: 1s;
 }
 
 #mainsecondpage {
