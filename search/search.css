@@ -1,0 +1,146 @@
+@font-face {
+    font-family: "SeoulHangangEB";
+    font-style: "normal";
+    src: url("./src/SeoulHangangEB.ttf");
+}
+
+@font-face {
+    font-family: "SeoulHangangB";
+    font-style: "normal";
+    src: url("./src/SeoulHangangB.ttf");
+}
+
+@font-face {
+    font-family: "SeoulHangangL";
+    font-style: "normal";
+    src: url("./src/SeoulHangangL.ttf");
+}
+
+@font-face {
+    font-family: "SeoulHangangM";
+    font-style: "normal";
+    src: url("./src/SeoulHangangM.ttf");
+}
+
+@font-face {
+    font-family: "Hancom Gothic Regular";
+    font-style: "normal";
+    src: url("./src/Hancom\ Gothic\ Regular.ttf");
+}
+
+@font-face {
+    font-family: "Hancom Gothic Bold";
+    font-style: "normal";
+    src: url("./src/Hancom\ Gothic\ Bold.ttf");
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Hancom Gothic";
+    text-align: center;
+}
+
+.topnav {
+    position: fixed;
+    overflow: hidden;
+    top: 0;
+    width: 100%;
+    height: 100px;
+    border-bottom: 2px solid grey;
+    background-color: aliceblue;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    display: block;
+    padding-top: 100px;
+}
+
+.list {
+    height: 100%;
+}
+
+table {
+    text-align: center;
+    padding-top: 20px;
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+#title {
+    border-bottom: 2px solid black!important;
+    font-weight: 900;
+    font-family: "Hancom Gothic Bold";
+}
+
+td {
+    padding: 15px;
+    font-family: "Hancom Gothic";
+}
+
+.loader,
+.loader:before,
+.loader:after {
+    border-radius: 50%;
+    width: 2.5em;
+    height: 2.5em;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation: load7 1.8s infinite ease-in-out;
+    animation: load7 1.8s infinite ease-in-out;
+}
+
+.loader {
+    color: #1100ff;
+    font-size: 10px;
+    margin: 80px auto;
+    position: relative;
+    text-indent: -9999em;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+}
+
+.loader:before,
+.loader:after {
+    content: '';
+    position: absolute;
+    top: 0;
+}
+
+.loader:before {
+    left: -3.5em;
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+}
+
+.loader:after {
+    left: 3.5em;
+}
+
+@-webkit-keyframes load7 {
+    0%,
+    80%,
+    100% {
+        box-shadow: 0 2.5em 0 -1.3em;
+    }
+    40% {
+        box-shadow: 0 2.5em 0 0;
+    }
+}
+
+@keyframes load7 {
+    0%,
+    80%,
+    100% {
+        box-shadow: 0 2.5em 0 -1.3em;
+    }
+    40% {
+        box-shadow: 0 2.5em 0 0;
+    }
+}

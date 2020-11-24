@@ -1,0 +1,229 @@
+@font-face {
+    font-family: "SeoulHangangEB";
+    font-style: "normal";
+    src: url("./src/SeoulHangangEB.ttf");
+}
+
+@font-face {
+    font-family: "SeoulHangangB";
+    font-style: "normal";
+    src: url("./src/SeoulHangangB.ttf");
+}
+
+@font-face {
+    font-family: "SeoulHangangL";
+    font-style: "normal";
+    src: url("./src/SeoulHangangL.ttf");
+}
+
+@font-face {
+    font-family: "SeoulHangangM";
+    font-style: "normal";
+    src: url("./src/SeoulHangangM.ttf");
+}
+
+@font-face {
+    font-family: "Hancom Gothic Regular";
+    font-style: "normal";
+    src: url("./src/Hancom\ Gothic\ Regular.ttf");
+}
+
+@font-face {
+    font-family: "Hancom Gothic Bold";
+    font-style: "normal";
+    src: url("./src/Hancom\ Gothic\ Bold.ttf");
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    overflow: hidden;
+    background-color: black;
+}
+
+.background-photo-1 {
+    width: 100%;
+    height: 100vh;
+    background-image: url('./src/background\ photo.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    position: fixed;
+    z-index: -100;
+}
+
+.topnav {
+    position: fixed;
+    width: 100%;
+    box-shadow: inset 0 0 100px #000;
+    -webkit-box-shadow: inset 0px 98px 116px -45px rgba(0, 0, 0, 1);
+    -moz-box-shadow: inset 0px 98px 116px -45px rgba(0, 0, 0, 1);
+    box-shadow: inset 0px 98px 116px -45px rgba(0, 0, 0, 1);
+}
+
+.topnav p {
+    color: white;
+    display: inline-block;
+    text-shadow: 2px 2px 2px black;
+}
+
+.title {
+    display: inline-block;
+    width: 500px;
+    font-family: "SeoulHangangEB";
+}
+
+#title1 {
+    margin-top: 57px;
+    font-size: 45px;
+    margin-bottom: 0;
+}
+
+#title2 {
+    font-size: 28px;
+}
+
+.mainlogo {
+    margin-left: 36px;
+    margin-top: 61px;
+    float: left;
+    padding-right: 7px;
+    height: 112px;
+}
+
+.menu {
+    display: inline-block;
+    font-size: 35px;
+    height: 46px;
+    border-bottom: 1px solid grey;
+    margin-left: 34px;
+    margin-top: 30px;
+    padding-bottom: 60px;
+}
+
+.menu p {
+    display: inline-block;
+    padding-right: 66px;
+    font-family: "Hancom Gothic Bold";
+}
+
+.loginbutton {
+    width: 140px;
+    height: 90px;
+    float: right;
+    font-size: 28px;
+    margin-top: 90px;
+    font-family: "Hancom Gothic Bold";
+}
+
+form {
+    position: absolute;
+    width: 100%;
+    top: 50vh;
+    display: block;
+    font-family: "Hancom Gothic Bold";
+    margin: 0 auto;
+}
+
+.input input {
+    font-size: 25px;
+    text-align: center;
+    width: 50%;
+    display: inline-block;
+}
+
+.searchbar {
+    width: 50%!important;
+    margin: 0 auto;
+    position: absolute;
+    display: block;
+}
+
+.footbutton {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 30vh;
+    text-align: center;
+    display: block;
+}
+
+.footbutton p {
+    color: white;
+    font-size: 25px;
+}
+
+#footer:hover .recommendedbooks {
+    opacity: 1;
+}
+
+.recommendedbooks {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    transition-duration: 1s;
+    -webkit-transition-duration: 1s;
+    -moz-transition-duration: 1s;
+    opacity: 0;
+}
+
+.recommendedbooksbutton {
+    display: inline-block;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+#mainwebpage {
+    transition-duration: 1s;
+    -webkit-transition-duration: 1s;
+    -moz-transition-duration: 1s;
+}
+
+#mainsecondpage {
+    width: 100%;
+    height: 100vh;
+    background-color: #435469;
+    transition-duration: 1s;
+    -webkit-transition-duration: 1s;
+    -moz-transition-duration: 1s;
+    transform: translateY(100vh);
+}
+
+#mainer {
+    position: absolute;
+    width: 100%;
+    height: 30vh;
+    top: 0;
+    text-align: center;
+    display: block;
+}
+
+#mainer:hover .gotohome {
+    opacity: 1;
+}
+
+.gotohome {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    transition-duration: 1s;
+    -webkit-transition-duration: 1s;
+    -moz-transition-duration: 1s;
+    opacity: 0;
+}
+
+.gotohomebutton {
+    margin-top: 10px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.mainbutton p {
+    padding-top: 10px;
+    margin-bottom: 0;
+    color: white;
+    font-size: 25px;
+}

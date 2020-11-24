@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>중동고등학교 도서관 : 검색</title>
+    <link rel="stylesheet" href="./search.css">
+</head>
+
+<body>
+    <div class="topnav">
+
+    </div>
+
+    <div class="container">
+        <div class="list">
+            <table width="85%" align="center" id="table">
+                <tr align="center" id="title">
+                    <td>번호</td>
+                    <td width="40%">도서명</td>
+                    <td width="15%">저자</td>
+                    <td width="15%">출판사</td>
+                    <td>년도</td>
+                    <td>대출</td>
+                    <td>예약</td>
+                </tr>
+            </table>
+            <div class="loader">EOS (End of Stream)</div>
+            <p>서버에서 직접 가져오는거라 매우 느립니다. 양해부탁드립니다.</p>
+            <br><br><br><br>
+        </div>
+    </div>
+
+    <script src="http://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./search.js"></script>
+</body>
+
+</html>
