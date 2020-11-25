@@ -40,8 +40,7 @@ app.get('/search', async function(req, res) {
 
 app.get('/bookinfo', function(req, res) {
     let id = req.query.id;
-
-    res.end(id);
+    res.sendFile(path.join(__dirname, '/bookinfo/bookinfo.html'));
 });
 
 io.on('connection', function(socket) {
@@ -49,7 +48,7 @@ io.on('connection', function(socket) {
     socket.on('gimmelist', async function(query) {
         console.log(`query : ${query}`);
 
-        await connection.query(`select * from \`book\`.\`booklist\` where (\`Name\` like '%${query}%')
+        connection.query(`select * from \`book\`.\`booklist\` where (\`Name\` like '%${query}%')
         or (\`SubSignature\` like '%${query}%')
         or (\`Signature\` like '%${query}%')
         or (\`Author\` like '%${query}%')
@@ -120,6 +119,18 @@ io.on('connection', function(socket) {
         })(query, page); */
     });
 
+    socket.on('gimmebookinfo', function(query) {
+        if (Number.isInteger(query) == false) {
+            socket.emit('bookinforesult', 'wrong');
+        }
+
+        connection.query(`select * from \`book\`.\`booklist\` where No='${query}'`, function(err, results) {
+            if (err) throw err;
+
+            socket.emit('bookinforesult', JSON.stringify(results));
+        });
+    });
+
     socket.on('disconnect', function() {
         // 
     });
@@ -139,3 +150,4 @@ http.listen(port, function() {
 
 app.use(express.static('index'));
 app.use(express.static('search'));
+app.use(express.static('bookinfo'));

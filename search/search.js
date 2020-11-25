@@ -258,11 +258,25 @@ function tableUpdate() {
             result += `<td>N/A</td>`;
             result += `<td>N/A</td>`;
 
-            result += `<tr>`;
+            result += `</tr>`;
         } catch {}
     }
 
     document.getElementById('table').innerHTML = result;
+
+    $('tr').each(function(index, element) {
+        $(element).mouseenter(function() {
+            $(this).css('background-color', 'aquamarine');
+            $(this).css('cursor', 'pointer');
+        }).mouseleave(function() {
+            $(this).css('background-color', 'white');
+            $(this).css('cursor', 'auto');
+        });
+
+        $(element).click(function() {
+            alert($(this).find('td')[0].textContent);
+        });
+    });
 }
 
 function nulldetection(object) {

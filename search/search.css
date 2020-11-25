@@ -121,11 +121,17 @@ table {
     border-bottom: 2px solid black!important;
     font-weight: 900;
     font-family: "Hancom Gothic Bold";
+    background-color: white!important;
 }
 
 td {
     padding: 15px;
     font-family: "Hancom Gothic";
+}
+
+tr {
+    animation-duration: 1s;
+    transition-duration: 1s;
 }
 
 .loader,
