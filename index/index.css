@@ -39,6 +39,10 @@
     margin: 0;
 }
 
+p {
+    margin: 0;
+}
+
 body {
     overflow: hidden;
     background-color: black;
@@ -66,13 +70,11 @@ body {
 
 .topnav p {
     color: white;
-    display: inline-block;
-    text-shadow: 2px 2px 2px black;
+    margin-bottom: 0;
 }
 
 .title {
     display: inline-block;
-    width: 500px;
     font-family: "SeoulHangangEB";
 }
 
@@ -97,17 +99,24 @@ body {
 .menu {
     display: inline-block;
     font-size: 35px;
-    height: 46px;
-    border-bottom: 1px solid grey;
-    margin-left: 34px;
-    margin-top: 30px;
-    padding-bottom: 60px;
+    border-bottom: 2px solid white;
+    padding-bottom: 10px;
+    transform: translate(0, -50%);
+    margin-left: 66px;
 }
 
 .menu p {
     display: inline-block;
     padding-right: 66px;
     font-family: "Hancom Gothic Bold";
+}
+
+.menu p:last-child {
+    padding-right: 17px;
+}
+
+.menu p:first-child {
+    padding-left: 17px;
 }
 
 .loginbutton {
@@ -120,8 +129,8 @@ body {
 }
 
 form {
-    width: 47%;
-    font-family: "Hancom Gothic Bold";
+    width: 60%;
+    font-family: "Hancom Gothic";
     position: absolute;
     top: 50%;
     left: 50%;
@@ -129,9 +138,15 @@ form {
 }
 
 #input {
-    text-align: center;
-    font-size: 1.5em;
+    text-align: left;
+    padding-left: 40px;
+    font-size: 2.2em;
+    height: 90px;
     display: inline-block;
+}
+
+#input::placeholder {
+    color: rgba(0, 0, 0, 0.4);
 }
 
 .footbutton {
