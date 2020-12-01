@@ -49,6 +49,85 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    overflow: hidden;
+}
+
+#infocard {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    transform: translate(0, 100%);
+    z-index: 1000;
+    transition-duration: 1s;
+    -moz-transition-duration: 1s;
+    -o-transition-duration: 1s;
+    -webkit-transition-duration: 1s;
+    animation-duration: 1s;
+    -moz-animation-duration: 1s;
+    -o-animation-duration: 1s;
+    -webkit-animation-duration: 1s;
+}
+
+#cardwrapper {
+    width: 100%;
+    height: 80vh;
+    margin-top: 10vh;
+}
+
+a {
+    color: darkgrey;
+}
+
+#closetab {
+    width: 70px;
+    height: 70px;
+    float: left;
+    transition-duration: 1s;
+    -moz-transition-duration: 1s;
+    -o-transition-duration: 1s;
+    -webkit-transition-duration: 1s;
+    animation-duration: 1s;
+    -moz-animation-duration: 1s;
+    -o-animation-duration: 1s;
+    -webkit-animation-duration: 1s;
+}
+
+#card {
+    background-color: white;
+    -webkit-box-shadow: 13px 16px 48px -6px rgba(0, 0, 0, 0.49);
+    -moz-box-shadow: 13px 16px 48px -6px rgba(0, 0, 0, 0.49);
+    box-shadow: 13px 16px 48px -6px rgba(0, 0, 0, 0.49);
+    width: 1000px;
+    height: 80vh;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+#wrapper {
+    transition-duration: 1s;
+    -moz-transition-duration: 1s;
+    -o-transition-duration: 1s;
+    -webkit-transition-duration: 1s;
+    animation-duration: 1s;
+    -moz-animation-duration: 1s;
+    -o-animation-duration: 1s;
+    -webkit-animation-duration: 1s;
+    /* hardware acceleration for filters */
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+}
+
+#closebutton {
+    display: block;
+    height: 60px;
+}
+
+#infolabel {
+    display: block;
+    height: 100px;
 }
 
 .topnav {
@@ -104,6 +183,8 @@ span {
     height: 100vh;
     display: block;
     padding-top: 100px;
+    overflow-y: scroll;
+    padding-bottom: 15px;
 }
 
 .list {
@@ -115,6 +196,7 @@ table {
     padding-top: 20px;
     margin: 0 auto;
     border-collapse: collapse;
+    padding-bottom: 30px;
 }
 
 #title {
@@ -132,6 +214,16 @@ td {
 tr {
     animation-duration: 1s;
     transition-duration: 1s;
+}
+
+h4 {
+    float: left;
+    font-family: 'Hancom Gothic Bold';
+}
+
+#bookimage {
+    width: 200px;
+    border: 1px solid black;
 }
 
 .loader,

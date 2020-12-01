@@ -9,45 +9,73 @@
 </head>
 
 <body>
-    <div class="topnav">
-        <img src="./src/logo.png" alt="logo.png" id="logo">
+    <div id="infocard">
 
-        <form action="/search" class="searchbar" method="GET">
-            <input type="text" id="input" name="v" class="form-control" placeholder="도서를 검색하세요.">
-        </form>
+        <div id="cardwrapper">
+            <div id="card">
+                <!-- X -->
+                <div id="closebutton">
+                    <a href="#" id="closetab">
+                        <svg width="60px" height="60px" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </a>
+                </div>
 
-        <div id="settings">
+                <div id="infolabel">
+                    <h4>
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-dot" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                        </svg> 도서상세정보
+                    </h4>
+                </div>
 
-        </div>
-    </div>
+                <div id="info">
 
-    <div class="container">
-        <div class="list">
-            <table width="85%" align="center" id="table">
-                <tr align="center" id="title">
-                    <td>번호</td>
-                    <td width="40%">도서명</td>
-                    <td width="15%">저자</td>
-                    <td width="15%">출판사</td>
-                    <td>년도</td>
-                    <td>대출</td>
-                    <td>예약</td>
-                </tr>
-            </table>
-            <div id="loading">
-                <div class="loader">EOS (End of Stream)</div>
-                <p>잠시만 기다려주세요.. (fetching info)</p>
-                <br><br><br><br>
+                </div>
+
             </div>
         </div>
 
-        <div id="info" style="display:none;">
-
-        </div>
     </div>
 
-    <div class="bottomnav" id="bottomnav">
+    <div id="wrapper">
+        <div class="topnav">
+            <img src="./src/logo.png" alt="logo.png" id="logo">
 
+            <form action="/search" class="searchbar" method="GET">
+                <input type="text" id="input" name="v" class="form-control" placeholder="도서를 검색하세요.">
+            </form>
+
+            <div id="settings">
+
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="list">
+                <table width="85%" align="center" id="table">
+                    <tr align="center" id="title" class="title">
+                        <td>번호</td>
+                        <td width="40%">도서명</td>
+                        <td width="15%">저자</td>
+                        <td width="15%">출판사</td>
+                        <td>년도</td>
+                        <td>대출</td>
+                        <td>예약</td>
+                    </tr>
+                </table>
+                <div id="loading">
+                    <div class="loader">EOS (End of Stream)</div>
+                    <p>잠시만 기다려주세요.. (fetching info)</p>
+                    <br><br><br><br>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottomnav" id="bottomnav">
+
+        </div>
     </div>
 
     <script src="http://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>

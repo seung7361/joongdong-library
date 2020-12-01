@@ -7,6 +7,9 @@ const port = 3000;
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
+const NAVER_CLIENT_ID = 'GnALdwQGZFFFLjnmkuwl';
+const NAVER_CLIENT_SECRET = '5Hm7SyebKq';
+
 const mysql = require('mysql');
 let connection = mysql.createConnection({
     host: 'localhost',
@@ -34,19 +37,35 @@ app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, '/index/index.html'));
 });
 
+app.get('/booksearch', function(req, res) {
+    let query = req.query.query;
+
+    request.get({
+        url: 'https://openapi.naver.com/v1/search/book.json',
+        encoding: 'utf-8',
+        qs: {
+            query: query,
+            start: 1,
+            display: 1
+        },
+        headers: {
+            'X-Naver-Client-Id': NAVER_CLIENT_ID,
+            'X-Naver-Client-Secret': NAVER_CLIENT_SECRET
+        }
+    }, function(err, result, body) {
+        let json = JSON.parse(body);
+        res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+        res.end(JSON.stringify(json));
+    });
+})
+
 app.get('/search', async function(req, res) {
     res.sendFile(path.join(__dirname, './search/search.html'));
-});
-
-app.get('/bookinfo', function(req, res) {
-    let id = req.query.id;
-    res.sendFile(path.join(__dirname, '/bookinfo/bookinfo.html'));
 });
 
 io.on('connection', function(socket) {
 
     socket.on('gimmelist', async function(query) {
-        console.log(`query : ${query}`);
 
         connection.query(`select * from \`book\`.\`booklist\` where (\`Name\` like '%${query}%')
         or (\`SubSignature\` like '%${query}%')
@@ -58,6 +77,7 @@ io.on('connection', function(socket) {
         or (\`OriginalAuthor\` like '%${query}%')`, async function(err, results) {
             if (err) throw err;
 
+            results = results.reverse();
             await socket.emit('result', JSON.stringify(results));
         });
 
@@ -127,7 +147,32 @@ io.on('connection', function(socket) {
         connection.query(`select * from \`book\`.\`booklist\` where No='${query}'`, function(err, results) {
             if (err) throw err;
 
-            socket.emit('bookinforesult', JSON.stringify(results));
+            // socket.emit('bookinforesult', JSON.stringify(results));
+
+            result = results[0];
+            let naverquery = `${result["Name"].split(';')[0].split(':')[0].trim()} ${result["Author"].split('지음')[0].split('저')[0].split(';')[0].split('편')[0].trim()}`;
+            console.log(naverquery);
+            request.get({
+                url: 'https://openapi.naver.com/v1/search/book.json',
+                encoding: 'utf-8',
+                qs: {
+                    query: naverquery,
+                    start: 1,
+                    display: 1
+                },
+                headers: {
+                    'X-Naver-Client-Id': NAVER_CLIENT_ID,
+                    'X-Naver-Client-Secret': NAVER_CLIENT_SECRET
+                }
+            }, function(err, result, body) {
+                let json = JSON.parse(body);
+
+                if (json["total"] == "0") {
+                    socket.emit('bookinforesult', JSON.stringify(results), null, null);
+                } else {
+                    socket.emit('bookinforesult', JSON.stringify(results), json["items"][0]["image"], json["items"][0]["link"]);
+                }
+            });
         });
     });
 

@@ -90,18 +90,18 @@ const searchquery = (new URL(window.location.href)).searchParams.get('v');
 // for (let i = 0; i < list.length; i++) {
 //     result += `<tr>`;
 
-//     result += `<td>${nulldetection(list[i]["No"])}</td>`;
-//     result += `<td>${nulldetection(list[i]["Name"])}</td>`;
-//     result += `<td>${nulldetection(list[i]["Author"])}</td>`;
-//     result += `<td>${nulldetection(list[i]["Publisher"])}</td>`;
-//     result += `<td>${nulldetection(list[i]["PublicationYear"])}</td>`;
+//     result += `<td>${tailor(list[i]["No"])}</td>`;
+//     result += `<td>${tailor(list[i]["Name"])}</td>`;
+//     result += `<td>${tailor(list[i]["Author"])}</td>`;
+//     result += `<td>${tailor(list[i]["Publisher"])}</td>`;
+//     result += `<td>${tailor(list[i]["PublicationYear"])}</td>`;
 //     result += `<td>N/A</td>`;
 //     result += `<td>N/A</td>`;
 
 //     result += `<tr>`;
 // }
 
-const tableinit = `<tr align="center" id="title">
+const tableinit = `<tr align="center" class="title" id="title">
     <td>번호</td>
     <td width="40%">도서명</td>
     <td width="15%">저자</td>
@@ -243,6 +243,22 @@ function updatePage(newpagenum) {
     $(`#page${currentPage}`).css('color', 'blue');
 }
 
+function tailor(object) {
+
+}
+
+function tailorAuthor(param) {
+    if (param.trim() == "") {
+        return "N/A";
+    }
+
+    if (param.includes('[지음]')) {
+        param = param.replace('[지음]', '지음');
+    }
+
+    return param.split('지음')[0].trim();
+}
+
 function tableUpdate() {
     let result = tableinit;
 
@@ -250,11 +266,12 @@ function tableUpdate() {
         try {
             result += `<tr>`;
 
-            result += `<td>${nulldetection(booklist[i]["No"])}</td>`;
-            result += `<td>${nulldetection(booklist[i]["Name"])}</td>`;
-            result += `<td>${nulldetection(booklist[i]["Author"])}</td>`;
-            result += `<td>${nulldetection(booklist[i]["Publisher"])}</td>`;
-            result += `<td>${nulldetection(booklist[i]["PublicationYear"])}</td>`;
+            tailor(booklist[i]);
+            result += `<td>${booklist[i]["No"]}</td>`;
+            result += `<td>${booklist[i]["Name"]}</td>`;
+            result += `<td>${tailorAuthor(booklist[i]["Author"])}</td>`;
+            result += `<td>${booklist[i]["Publisher"]}</td>`;
+            result += `<td>${booklist[i]["PublicationYear"]}</td>`;
             result += `<td>N/A</td>`;
             result += `<td>N/A</td>`;
 
@@ -265,28 +282,80 @@ function tableUpdate() {
     document.getElementById('table').innerHTML = result;
 
     $('tr').each(function(index, element) {
-        $(element).mouseenter(function() {
-            $(this).css('background-color', 'aquamarine');
-            $(this).css('cursor', 'pointer');
-        }).mouseleave(function() {
-            $(this).css('background-color', 'white');
-            $(this).css('cursor', 'auto');
-        });
+        if ($(element).hasClass('title')) {
+            //
+        } else {
+            $(element).mouseenter(function() {
+                $(this).css('background-color', 'CornflowerBlue');
+                $(this).css('cursor', 'pointer');
+            }).mouseleave(function() {
+                $(this).css('background-color', 'white');
+                $(this).css('cursor', 'auto');
+            });
 
-        $(element).click(function() {
-            alert($(this).find('td')[0].textContent);
-        });
+            $(element).click(function() {
+                socket.emit('gimmebookinfo', parseInt($(this).find('td')[0].textContent));
+            });
+        }
     });
 }
 
-function nulldetection(object) {
-    if (object == null) {
-        return 'N/A';
-    } else {
-        return object;
-    }
+let bookinfo, imageurl, booklink;
+socket.on('bookinforesult', function(result, image, link) {
+    bookinfo = JSON.parse(result);
+    console.log(bookinfo);
+    imageurl = image;
+    booklink = link;
+
+    updateBookInfo();
+    $('#wrapper').css({
+        'filter': 'grayscale(100%) blur(10px)',
+        '-webkit-filter': 'grayscale(100%) blur(10px)',
+        '-moz-filter': 'grayscale(100%) blur(10px)',
+        '-o-filter': 'grayscale(100%) blur(10px)',
+        '-ms-filter': 'grayscale(100%) blur(10px)'
+    });
+    $('#infocard').css('transform', 'translate(0)');
+});
+
+$('#closetab').click(function() {
+    $('#wrapper').css({
+        'filter': '',
+        '-webkit-filter': '',
+        '-moz-filter': '',
+        '-o-filter': '',
+        '-ms-filter': ''
+    });
+    $('#infocard').css('transform', 'translate(0, 100%)');
+});
+
+function updateBookInfo() {
+    let result = ``;
+
+    result += `<img src="${imageurl}" id="bookimage" alt="bookimage">`;
+
+    result += `<p>${bookinfo[0]["Name"]}</p><br>`;
+    result += `<p>${bookinfo[0]["Author"]}</p>`;
+
+    document.getElementById('info').innerHTML = result;
+
+    if (booklink == null) return 0;
+    $('#bookimage').click(function() {
+        window.open(booklink, '_blank');
+    }).css({
+        "cursor": "pointer"
+    });
 }
+
 
 $('#logo').click(function() {
     window.location.replace('/');
+});
+
+$('#card').click(function(event) {
+    event.stopPropagation();
+})
+
+$('#infocard').click(function() {
+    $('#closetab').click();
 });
