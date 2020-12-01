@@ -170,7 +170,7 @@ io.on('connection', function(socket) {
                 if (json["total"] == "0") {
                     socket.emit('bookinforesult', JSON.stringify(results), null, null);
                 } else {
-                    socket.emit('bookinforesult', JSON.stringify(results), json["items"][0]["image"], json["items"][0]["link"]);
+                    socket.emit('bookinforesult', JSON.stringify(results), json["items"][0]["image"].replace('type=m1&', ''), json["items"][0]["link"]);
                 }
             });
         });
