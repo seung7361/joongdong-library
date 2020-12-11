@@ -127,7 +127,7 @@ a {
 
 #infolabel {
     display: block;
-    height: 100px;
+    height: 50px;
 }
 
 .topnav {
@@ -221,9 +221,24 @@ h4 {
     font-family: 'Hancom Gothic Bold';
 }
 
+#info {
+    text-align: left;
+    float: left;
+}
+
 #bookimage {
     width: 200px;
     border: 1px solid black;
+    margin: 20px;
+    margin-top: 0;
+    margin-left: 40px;
+    float: left;
+}
+
+#booktitle {
+    font-family: "Hancom Gothic Bold";
+    font-weight: 900;
+    float: left;
 }
 
 .loader,

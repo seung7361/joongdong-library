@@ -334,8 +334,8 @@ function updateBookInfo() {
 
     result += `<img src="${imageurl}" id="bookimage" alt="bookimage">`;
 
-    result += `<p>${bookinfo[0]["Name"]}</p><br>`;
-    result += `<p>${bookinfo[0]["Author"]}</p>`;
+    result += `<h5 id="booktitle">${bookinfo[0]["Name"]}</h5><br><br>`;
+    result += `<p>${bookinfo[0]["Author"]} | ${bookinfo[0]["Publisher"]} | ${bookinfo[0]["PublicationYear"]}</p>`;
 
     document.getElementById('info').innerHTML = result;
 
