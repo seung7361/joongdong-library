@@ -119,6 +119,15 @@ socket.emit('gimmelist', searchquery);
 
 socket.on('result', function(list) {
     console.log(`results received.`);
+
+    if (JSON.parse(list).length == 0) {
+        document.getElementById('loading').style.opacity = `1`;
+
+        document.getElementsByClassName('loader')[0].style.opacity = `0`;
+        document.getElementById('loading').getElementsByTagName('p')[0].innerHTML = `검색 결과가 없습니다. (no results were found)`;
+        return 0;
+    }
+
     booklist = JSON.parse(list);
     pages = Math.floor((booklist.length / booksperpage) + 1);
     if (booklist.length % booksperpage == 0) pages--;
