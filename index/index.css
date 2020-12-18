@@ -37,6 +37,7 @@
 * {
     padding: 0;
     margin: 0;
+    font-family: "Hancom Gothic Regular";
 }
 
 p {
@@ -196,7 +197,7 @@ form {
 #mainer {
     position: absolute;
     width: 100%;
-    height: 30vh;
+    height: 20vh;
     top: 0;
     text-align: center;
     display: block;
@@ -227,4 +228,44 @@ form {
     margin-bottom: 0;
     color: white;
     font-size: 25px;
+}
+
+#container {
+    width: 100%;
+    display: inline-block;
+    margin-top: 150px;
+    padding-bottom: 50px;
+}
+
+h2 {
+    font-family: 'Hancom Gothic Regular';
+    color: white;
+}
+
+.swiper-container {
+    width: 85%;
+    padding-top: 5%!important;
+    margin: 0 auto;
+    height: 60vh;
+    text-align: center;
+}
+
+.book {
+    width: 33%;
+    display: block;
+    height: 100%;
+    float: left;
+}
+
+.book p {
+    text-align: center;
+    color: white;
+    font-family: 'Hancom Gothic Regular';
+    padding: 5px;
+    cursor: pointer;
+}
+
+.book img {
+    height: 90%;
+    cursor: pointer;
 }

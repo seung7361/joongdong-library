@@ -176,6 +176,45 @@ io.on('connection', function(socket) {
         });
     });
 
+    socket.on('fetchrecommendedlist', function() {
+
+        connection.query(`select * from \`book\`.\`booklist\` where \`recommended\` = 1`, async function(err, result) {
+            if (err) throw err;
+
+            let booksinfo = new Array();
+            for (let i = 0; i < result.length; i++) {
+                request.get({
+                    url: 'https://openapi.naver.com/v1/search/book.json',
+                    encoding: 'utf-8',
+                    qs: {
+                        query: result[i]["Name"].split(';')[0].split(':')[0].trim(),
+                        start: 1,
+                        display: 1
+                    },
+                    headers: {
+                        'X-Naver-Client-Id': NAVER_CLIENT_ID,
+                        'X-Naver-Client-Secret': NAVER_CLIENT_SECRET
+                    }
+                }, function(err, response, body) {
+                    if (err) throw err;
+
+                    let json = JSON.parse(body);
+
+                    if (json["total"] == 0) {
+                        booksinfo[i] = null;
+                    } else {
+                        booksinfo[i] = json["items"][0]["image"].replace('type=m1&', '');
+                    }
+                });
+            }
+
+            setTimeout(function() {
+                socket.emit('resrecommendedlist', result, booksinfo);
+            }, 500);
+        });
+
+    });
+
     socket.on('disconnect', function() {
         // 
     });
