@@ -224,6 +224,11 @@ h4 {
 #info {
     text-align: left;
     float: left;
+    width: 100%;
+}
+
+#info p {
+    display: inline-block;
 }
 
 #bookimage {

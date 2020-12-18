@@ -18,6 +18,12 @@ socket.on('resrecommendedlist', async function(data, booksinfo) {
     book = data;
     totalpage = (book.length + 1);
 
+    if (totalpage == 1) {
+        document.getElementById('loading').getElementsByTagName('p')[0].innerHTML = `검색 결과가 없습니다. (No results were found.)`;
+        document.getElementsByClassName('loader')[0].style.opacity = `0`;
+        return 0;
+    }
+
     let innerhtml = ``;
     let index = 1;
     for (let i = 0; i < totalpage / 3; i++) {
