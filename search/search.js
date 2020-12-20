@@ -101,14 +101,13 @@ const searchquery = (new URL(window.location.href)).searchParams.get('v');
 //     result += `<tr>`;
 // }
 
-const tableinit = `<tr align="center" class="title" id="title">
-    <td>번호</td>
-    <td width="40%">도서명</td>
-    <td width="15%">저자</td>
-    <td width="15%">출판사</td>
-    <td>년도</td>
-    <td>대출</td>
-    <td>예약</td>
+const tableinit = `
+    <tr align="center" class="title" id="title">
+        <td>번호</td>
+        <td width="40%">도서명</td>
+        <td width="15%">저자</td>
+        <td width="15%">출판사</td>
+        <td>년도</td>
     </tr>`;
 
 let booklist = [];
@@ -281,8 +280,6 @@ function tableUpdate() {
             result += `<td>${tailorAuthor(booklist[i]["Author"])}</td>`;
             result += `<td>${booklist[i]["Publisher"]}</td>`;
             result += `<td>${booklist[i]["PublicationYear"]}</td>`;
-            result += `<td>N/A</td>`;
-            result += `<td>N/A</td>`;
 
             result += `</tr>`;
         } catch {}
@@ -309,14 +306,9 @@ function tableUpdate() {
     });
 }
 
-let bookinfo, imageurl, booklink;
-socket.on('bookinforesult', function(result, image, link) {
-    bookinfo = JSON.parse(result);
-    console.log(bookinfo);
-    imageurl = image;
-    booklink = link;
+socket.on('bookinforesult', function(result, image, link, isbn) {
 
-    updateBookInfo();
+    updateBookInfo(JSON.parse(result), image, link, isbn);
     $('#wrapper').css({
         'filter': 'grayscale(100%) blur(10px)',
         '-webkit-filter': 'grayscale(100%) blur(10px)',
@@ -338,22 +330,54 @@ $('#closetab').click(function() {
     $('#infocard').css('transform', 'translate(0, 100%)');
 });
 
-function updateBookInfo() {
-    let result = ``;
+const starsvg = `<svg height="10px" style="margin:5px;" viewBox="0 -10 511.98685 511" xmlns="http://www.w3.org/2000/svg"><path d="m510.652344 185.902344c-3.351563-10.367188-12.546875-17.730469-23.425782-18.710938l-147.773437-13.417968-58.433594-136.769532c-4.308593-10.023437-14.121093-16.511718-25.023437-16.511718s-20.714844 6.488281-25.023438 16.535156l-58.433594 136.746094-147.796874 13.417968c-10.859376 1.003906-20.03125 8.34375-23.402344 18.710938-3.371094 10.367187-.257813 21.738281 7.957031 28.90625l111.699219 97.960937-32.9375 145.089844c-2.410156 10.667969 1.730468 21.695313 10.582031 28.09375 4.757813 3.4375 10.324219 5.1875 15.9375 5.1875 4.839844 0 9.640625-1.304687 13.949219-3.882813l127.46875-76.183593 127.421875 76.183593c9.324219 5.609376 21.078125 5.097657 29.910156-1.304687 8.855469-6.417969 12.992187-17.449219 10.582031-28.09375l-32.9375-145.089844 111.699219-97.941406c8.214844-7.1875 11.351563-18.539063 7.980469-28.925781zm0 0" fill="#ffc107"/></svg>`;
 
-    result += `<img src="${imageurl}" id="bookimage" alt="bookimage">`;
+function updateBookInfo(bookinfo, imageurl, booklink, bookisbn) {
+    let result = ``;
+    console.log(bookinfo);
+
+    if (bookinfo[0]["recommended"] == 1) {
+        result += `<span style="cursor:auto;font-size:10px;">${starsvg}이달의 추천도서</span>`;
+    }
+
+    if (imageurl == null) {
+        result += `<img src="./src/noimage.png" id="bookimage" alt="bookimage">`;
+    } else {
+        result += `<img src="${imageurl}" id="bookimage" alt="bookimage">`;
+    }
 
     result += `<h5 id="booktitle">${bookinfo[0]["Name"]}</h5><br><br>`;
-    result += `<p>${bookinfo[0]["Author"]} | ${bookinfo[0]["Publisher"]} | ${bookinfo[0]["PublicationYear"]}</p>`;
+    result += `<p style="width:70%;text-align:left;">${bookinfo[0]["Author"]} | ${bookinfo[0]["Publisher"]} | ${bookinfo[0]["PublicationYear"]}</p>`;
+
+    result += `
+        <table class="morebookinfo">
+            <thead>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>페이지 수</td>
+                    <td>${(bookinfo[0]["Page"]) ? bookinfo[0]["Page"] : "N/A"}</td>
+                </tr>
+                <tr>
+                    <td>크기</td>
+                    <td>${(bookinfo[0]["Size"]) ? bookinfo[0]["Size"] : "N/A"}</td>
+                </tr>
+                <tr>
+                    <td>ISBN</td>
+                    <td>${bookisbn}</td>
+                </tr>
+            </tbody>
+        </table>`;
 
     document.getElementById('info').innerHTML = result;
 
-    if (booklink == null) return 0;
-    $('#bookimage').click(function() {
-        window.open(booklink, '_blank');
-    }).css({
-        "cursor": "pointer"
-    });
+    if (booklink !== null) {
+        $('#bookimage').click(function() {
+            window.open(booklink, '_blank');
+        }).css({
+            "cursor": "pointer"
+        });
+    }
 }
 
 

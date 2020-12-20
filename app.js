@@ -151,7 +151,7 @@ io.on('connection', function(socket) {
 
             result = results[0];
             let naverquery = `${result["Name"].split(';')[0].split(':')[0].trim()} ${result["Author"].split('지음')[0].split('저')[0].split(';')[0].split('편')[0].trim()}`;
-            console.log(naverquery);
+            // console.log(naverquery);
             request.get({
                 url: 'https://openapi.naver.com/v1/search/book.json',
                 encoding: 'utf-8',
@@ -164,13 +164,17 @@ io.on('connection', function(socket) {
                     'X-Naver-Client-Id': NAVER_CLIENT_ID,
                     'X-Naver-Client-Secret': NAVER_CLIENT_SECRET
                 }
-            }, function(err, result, body) {
+            }, function(err, res, body) {
                 let json = JSON.parse(body);
 
                 if (json["total"] == "0") {
-                    socket.emit('bookinforesult', JSON.stringify(results), null, null);
+                    socket.emit('bookinforesult', JSON.stringify(results), null, null, null);
                 } else {
-                    socket.emit('bookinforesult', JSON.stringify(results), json["items"][0]["image"].replace('type=m1&', ''), json["items"][0]["link"]);
+                    socket.emit('bookinforesult',
+                        JSON.stringify(results), // 책 결과
+                        json["items"][0]["image"].replace('type=m1&', ''), // imagelink
+                        json["items"][0]["link"],
+                        json["items"][0]["isbn"]); // booklink
                 }
             });
         });
